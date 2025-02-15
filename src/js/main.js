@@ -24,6 +24,7 @@ class FunnelGraph {
         this.height = options.height;
         this.width = options.width;
         this.subLabelValue = options.subLabelValue || 'percent';
+        this.labelValueFormat = options.labelValueFormat || 'number'; // Padrão é 'number'
 
         if (!['percent', 'number', 'raw', 'points'].includes(this.subLabelFormat)) {
             throw new Error(`Invalid subLabelFormat: ${this.subLabelFormat}. Must be 'percent', 'number', 'raw', or 'points'.`);
@@ -180,8 +181,21 @@ class FunnelGraph {
             const value = document.createElement('div');
             value.setAttribute('class', 'label__value');
 
-            const valueNumber = this.is2d() ? this.getValues2d()[index] : this.values[index];
-            value.textContent = formatNumber(valueNumber);
+            let valueDisplay = 0;
+
+            if (this.labelValueFormat === 'percent') {
+                valueDisplay = `${this.percentages[index]}%`;
+            } else if (this.labelValueFormat === 'number') {
+                valueDisplay = formatNumber(this.values[index]);
+            } else if (this.labelValueFormat === 'raw') {
+                valueDisplay = this.values[index]; // Valor bruto sem formatação
+            } else if (this.labelValueFormat === 'points') {
+                valueDisplay = Math.round(this.values[index]); // Formata como pontos inteiros
+            } else {
+                throw new Error(`Invalid labelValueFormat: ${this.labelValueFormat}`);
+            }
+
+            value.textContent = valueDisplay;
 
             const percentageValue = document.createElement('div');
             percentageValue.setAttribute('class', 'label__percentage');
