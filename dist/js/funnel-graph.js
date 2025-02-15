@@ -178,6 +178,7 @@ function () {
     this.height = options.height;
     this.width = options.width;
     this.subLabelValue = options.subLabelValue || 'percent';
+    this.labelValueFormat = options.labelValueFormat || 'number'; // Padrão é 'number'
 
     if (!['percent', 'number', 'raw', 'points'].includes(this.subLabelFormat)) {
       throw new Error("Invalid subLabelFormat: ".concat(this.subLabelFormat, ". Must be 'percent', 'number', 'raw', or 'points'."));
@@ -329,8 +330,21 @@ function () {
         title.textContent = _this.labels[index] || '';
         var value = document.createElement('div');
         value.setAttribute('class', 'label__value');
-        var valueNumber = _this.is2d() ? _this.getValues2d()[index] : _this.values[index];
-        value.textContent = (0, _number.formatNumber)(valueNumber);
+        var valueDisplay = 0;
+
+        if (_this.labelValueFormat === 'percent') {
+          valueDisplay = "".concat(_this.percentages[index], "%");
+        } else if (_this.labelValueFormat === 'number') {
+          valueDisplay = (0, _number.formatNumber)(_this.values[index]);
+        } else if (_this.labelValueFormat === 'raw') {
+          valueDisplay = _this.values[index]; // Valor bruto sem formatação
+        } else if (_this.labelValueFormat === 'points') {
+          valueDisplay = Math.round(_this.values[index]); // Formata como pontos inteiros
+        } else {
+          throw new Error("Invalid labelValueFormat: ".concat(_this.labelValueFormat));
+        }
+
+        value.textContent = valueDisplay;
         var percentageValue = document.createElement('div');
         percentageValue.setAttribute('class', 'label__percentage');
         percentageValue.textContent = "".concat(percentage.toString(), "%");
