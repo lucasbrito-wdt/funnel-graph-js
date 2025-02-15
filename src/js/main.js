@@ -192,19 +192,21 @@ class FunnelGraph {
             if (this.is2d()) {
                 const segmentPercentages = document.createElement('div');
                 segmentPercentages.setAttribute('class', 'label__segment-percentages');
-                let percentageList = '<ul class="segment-percentage__list">';
-
+                let percentageList = '';
                 const twoDimPercentages = this.getPercentages2d();
-
                 this.subLabels.forEach((subLabel, j) => {
-                    const subLabelDisplayValue = this.subLabelValue === 'percent'
-                        ? `${twoDimPercentages[index][j]}%`
-                        : formatNumber(this.values[index][j]);
-                    percentageList += `<li>${this.subLabels[j]}:
-    <span class="percentage__list-label">${subLabelDisplayValue}</span>
- </li>`;
+                    let subLabelDisplayValue;
+                    if (this.subLabelFormat === 'percent') {
+                        subLabelDisplayValue = `${twoDimPercentages[index][j]}%`;
+                    } else if (this.subLabelFormat === 'number') {
+                        subLabelDisplayValue = formatNumber(this.values[index][j]);
+                    } else if (this.subLabelFormat === 'raw') {
+                        subLabelDisplayValue = this.values[index][j];
+                    } else {
+                        throw new Error(`Invalid subLabelFormat: ${this.subLabelFormat}`);
+                    }
+                    percentageList += `${this.subLabels[j]}: ${subLabelDisplayValue}\n`;
                 });
-                percentageList += '</ul>';
                 segmentPercentages.innerHTML = percentageList;
                 labelElement.appendChild(segmentPercentages);
             }

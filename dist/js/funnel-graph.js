@@ -340,16 +340,26 @@ function () {
         if (_this.is2d()) {
           var segmentPercentages = document.createElement('div');
           segmentPercentages.setAttribute('class', 'label__segment-percentages');
-          var percentageList = '<ul class="segment-percentage__list">';
+          var percentageList = '';
 
           var twoDimPercentages = _this.getPercentages2d();
 
           _this.subLabels.forEach(function (subLabel, j) {
-            var subLabelDisplayValue = _this.subLabelValue === 'percent' ? "".concat(twoDimPercentages[index][j], "%") : (0, _number.formatNumber)(_this.values[index][j]);
-            percentageList += "<li>".concat(_this.subLabels[j], ":\n    <span class=\"percentage__list-label\">").concat(subLabelDisplayValue, "</span>\n </li>");
+            var subLabelDisplayValue;
+
+            if (_this.subLabelFormat === 'percent') {
+              subLabelDisplayValue = "".concat(twoDimPercentages[index][j], "%");
+            } else if (_this.subLabelFormat === 'number') {
+              subLabelDisplayValue = (0, _number.formatNumber)(_this.values[index][j]);
+            } else if (_this.subLabelFormat === 'raw') {
+              subLabelDisplayValue = _this.values[index][j];
+            } else {
+              throw new Error("Invalid subLabelFormat: ".concat(_this.subLabelFormat));
+            }
+
+            percentageList += "".concat(_this.subLabels[j], ": ").concat(subLabelDisplayValue, "\n");
           });
 
-          percentageList += '</ul>';
           segmentPercentages.innerHTML = percentageList;
           labelElement.appendChild(segmentPercentages);
         }
