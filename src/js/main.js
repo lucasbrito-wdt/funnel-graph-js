@@ -1,6 +1,6 @@
 /* eslint-disable no-trailing-spaces */
 /* global HTMLElement */
-import { roundPoint, formatNumber } from './number';
+import { roundPoint, formatNumber, formatPoints } from './number';
 import { createPath, createVerticalPath } from './path';
 import {
     generateLegendBackground, getDefaultColors, createSVGElement, setAttrs, removeAttrs
@@ -24,6 +24,10 @@ class FunnelGraph {
         this.height = options.height;
         this.width = options.width;
         this.subLabelValue = options.subLabelValue || 'percent';
+
+        if (!['percent', 'number', 'raw', 'points'].includes(this.subLabelFormat)) {
+            throw new Error(`Invalid subLabelFormat: ${this.subLabelFormat}. Must be 'percent', 'number', 'raw', or 'points'.`);
+        }
     }
 
     /**
@@ -202,6 +206,8 @@ class FunnelGraph {
                         subLabelDisplayValue = formatNumber(this.values[index][j]);
                     } else if (this.subLabelFormat === 'raw') {
                         subLabelDisplayValue = this.values[index][j];
+                    } else if (this.subLabelFormat === 'points') {
+                        subLabelDisplayValue = formatPoints(this.values[index][j]); // Formata como pontos inteiros
                     } else {
                         throw new Error(`Invalid subLabelFormat: ${this.subLabelFormat}`);
                     }
