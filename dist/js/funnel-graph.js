@@ -178,6 +178,10 @@ function () {
     this.height = options.height;
     this.width = options.width;
     this.subLabelValue = options.subLabelValue || 'percent';
+
+    if (!['percent', 'number', 'raw', 'points'].includes(this.subLabelFormat)) {
+      throw new Error("Invalid subLabelFormat: ".concat(this.subLabelFormat, ". Must be 'percent', 'number', 'raw', or 'points'."));
+    }
   }
   /**
   An example of a two-dimensional funnel graph
@@ -353,6 +357,8 @@ function () {
               subLabelDisplayValue = (0, _number.formatNumber)(_this.values[index][j]);
             } else if (_this.subLabelFormat === 'raw') {
               subLabelDisplayValue = _this.values[index][j];
+            } else if (_this.subLabelFormat === 'points') {
+              subLabelDisplayValue = (0, _number.formatPoints)(_this.values[index][j]); // Formata como pontos inteiros
             } else {
               throw new Error("Invalid subLabelFormat: ".concat(_this.subLabelFormat));
             }
@@ -908,7 +914,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.formatNumber = exports.roundPoint = void 0;
+exports.formatPoints = exports.formatNumber = exports.roundPoint = void 0;
 
 var roundPoint = function roundPoint(number) {
   return Math.round(number * 10) / 10;
@@ -921,6 +927,15 @@ var formatNumber = function formatNumber(number) {
 };
 
 exports.formatNumber = formatNumber;
+
+var formatPoints = function formatPoints(number) {
+  return number.toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2
+  });
+};
+
+exports.formatPoints = formatPoints;
 
 },{}],5:[function(require,module,exports){
 "use strict";
