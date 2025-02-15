@@ -514,7 +514,9 @@ function () {
     value: function makeSVG() {
       var svg = (0, _graph.createSVGElement)('svg', this.graphContainer, {
         width: this.getWidth(),
-        height: this.getHeight()
+        height: this.getHeight(),
+        viewBox: "0 0 ".concat(this.getWidth(), " ").concat(this.getHeight()),
+        preserveAspectRatio: 'xMidYMid meet'
       });
       var valuesNum = this.getCrossAxisPoints().length - 1;
 

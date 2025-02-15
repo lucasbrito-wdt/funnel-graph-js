@@ -370,7 +370,9 @@ class FunnelGraph {
     makeSVG() {
         const svg = createSVGElement('svg', this.graphContainer, {
             width: this.getWidth(),
-            height: this.getHeight()
+            height: this.getHeight(),
+            viewBox: `0 0 ${this.getWidth()} ${this.getHeight()}`,
+            preserveAspectRatio: 'xMidYMid meet'
         });
 
         const valuesNum = this.getCrossAxisPoints().length - 1;

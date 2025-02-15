@@ -1,5 +1,5 @@
 {
-  "name": "funnel-graph-js",
+  "name": "funnel-graph",
   "version": "1.4.2",
   "description": "SVG Funnel Graph Javascript Library",
   "main": "main.js",
@@ -7,11 +7,11 @@
     "start": "gulp",
     "test": "nyc mocha --compilers js:babel-core/register"
   },
-  "author": "Greg Hovanesyan",
+  "author": "Lucas Brito",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/greghub/funnel-graph-js.git"
+    "url": "https://github.com/lucasbrito-wdt/funnel-graph-js.git"
   },
   "keywords": [
     "funnel",
