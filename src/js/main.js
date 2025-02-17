@@ -25,10 +25,6 @@ class FunnelGraph {
         this.width = options.width;
         this.subLabelValue = options.subLabelValue || 'percent';
         this.labelValueFormat = options.labelValueFormat || 'number'; // Padrão é 'number'
-
-        if (!['percent', 'number', 'raw', 'points'].includes(this.subLabelFormat)) {
-            throw new Error(`Invalid subLabelFormat: ${this.subLabelFormat}. Must be 'percent', 'number', 'raw', or 'points'.`);
-        }
     }
 
     /**
